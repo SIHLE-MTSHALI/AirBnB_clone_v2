@@ -140,3 +140,103 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 (hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
 ```
 <br>
+
+
+
+# 0x03. AirBnB clone - Deploy static
+
+This project focuses on deploying static web files for the AirBnB clone using Fabric and Puppet. The goal is to automate server setup and code deployment.
+
+## Table of Contents
+- [Files](#files)
+- [Requirements](#requirements)
+- [Usage](#usage)
+- [Tasks](#tasks)
+  - [Task 0: Prepare your web servers](#task-0-prepare-your-web-servers)
+  - [Task 1: Compress before sending](#task-1-compress-before-sending)
+  - [Task 2: Deploy archive!](#task-2-deploy-archive)
+  - [Task 3: Full deployment](#task-3-full-deployment)
+  - [Task 4: Keep it clean! (advanced)](#task-4-keep-it-clean-advanced)
+  - [Task 5: Puppet for setup (advanced)](#task-5-puppet-for-setup-advanced)
+
+## Files
+
+### 0-setup_web_static.sh
+Bash script to set up web servers for deployment of `web_static`. It installs Nginx, creates necessary directories, and configures Nginx to serve the content.
+
+### 1-pack_web_static.py
+Fabric script that generates a .tgz archive from the contents of the `web_static` folder. The archive is stored in the `versions` folder with a timestamp.
+
+### 2-do_deploy_web_static.py 
+Fabric script that distributes an archive to the web servers. It uploads the archive, uncompresses it, and creates a symbolic link to serve the new version.
+
+### 3-deploy_web_static.py
+Fabric script that creates and distributes an archive to the web servers by combining the functionality of `do_pack` and `do_deploy` functions.
+
+### 100-clean_web_static.py (advanced)
+Fabric script that deletes out-of-date archives, keeping only the specified number of recent versions.
+
+### 101-setup_web_static.pp (advanced)
+Puppet manifest that sets up web servers for deployment of `web_static`, similar to `0-setup_web_static.sh`.
+
+## Requirements
+
+- Python 3.4.0
+- Fabric 1.14.post1
+- Nginx
+- Ubuntu 20.04 LTS
+- Puppet
+
+## Usage
+
+1. Set up web servers using `0-setup_web_static.sh` or `101-setup_web_static.pp`.
+2. Create a .tgz archive of `web_static` using `1-pack_web_static.py`.
+3. Deploy the archive to the web servers using `2-do_deploy_web_static.py` or `3-deploy_web_static.py`.
+4. (Optional) Clean up old archives using `100-clean_web_static.py`.
+
+## Tasks
+
+### Task 0: Prepare your web servers
+- Create `0-setup_web_static.sh` Bash script.
+- Install Nginx if not already installed.
+- Create necessary directories.
+- Create a fake HTML file for testing.
+- Create a symbolic link.
+- Give ownership to the `ubuntu` user and group.
+- Update Nginx configuration.
+- Restart Nginx.
+
+### Task 1: Compress before sending
+- Create `1-pack_web_static.py` Fabric script.
+- Implement the `do_pack` function to generate a .tgz archive from the `web_static` folder.
+- Store the archive in the `versions` folder with a timestamp.
+
+### Task 2: Deploy archive!
+- Create `2-do_deploy_web_static.py` Fabric script.
+- Implement the `do_deploy` function to distribute an archive to the web servers.
+- Upload the archive to the `/tmp/` directory.
+- Uncompress the archive.
+- Delete the archive.
+- Create a symbolic link.
+
+### Task 3: Full deployment
+- Create `3-deploy_web_static.py` Fabric script.
+- Implement the `deploy` function to create and distribute an archive to the web servers.
+- Call the `do_pack` function to generate the archive.
+- Call the `do_deploy` function to deploy the archive.
+
+### Task 4: Keep it clean! (advanced)
+- Create `100-clean_web_static.py` Fabric script.
+- Implement the `do_clean` function to delete out-of-date archives.
+- Keep only the specified number of recent versions.
+- Delete old archives both locally and remotely on the web servers.
+
+### Task 5: Puppet for setup (advanced)
+- Create `101-setup_web_static.pp` Puppet manifest.
+- Set up web servers for deployment of `web_static`.
+- Install Nginx.
+- Create necessary directories.
+- Create a fake HTML file for testing.
+- Create a symbolic link.
+- Update Nginx configuration.
+- Restart Nginx.
