@@ -6,6 +6,7 @@ from fabric.api import *
 
 env.hosts = ['18.210.13.239', '18.214.89.149']
 
+
 def do_clean(number=0):
     """ Cleans up old archives. """
     number = int(number) if int(number) > 0 else 1
