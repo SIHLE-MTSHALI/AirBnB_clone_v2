@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HBNB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/4-common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/6-filters.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/8-places.css') }}">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="HBNB logo">
+    </div>
+    <div class="title">
+        <h1>HBNB</h1>
+    </div>
+</header>
+<section class="filters">
+    <h3>States</h3>
+    <div class="popover">
+        <h4>&nbsp;</h4>
+        <div class="filter_block">
+            <ul>
+            {% for state in states %}
+                <li>
+                    <input type="checkbox" id="{{ state.id }}" name="state">
+                    <label for="{{ state.id }}">{{ state.name }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <h3>Amenities</h3>
+    <div class="popover">
+        <h4>&nbsp;</h4>
+        <div class="filter_block">
+            <ul>
+            {% for amenity in amenities %}
+                <li>
+                    <input type="checkbox" id="{{ amenity.id }}" name="amenity">
+                    <label for="{{ amenity.id }}">{{ amenity.name }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="places">
+    <h2>Places</h2>
+    <div class="places_list">
+        {% for place in places %}
+        <article>
+            <div class="title_box">
+                <h2>{{ place.name }}</h2>
+                <div class="price_by_night">${{ place.price_by_night }}</div>
+            </div>
+            <div class="information">
+                <div class="max_guest">{{ place.max_guest }} Guest{{ place.max_guest|pluralize }}</div>
+                <div class="number_rooms">{{ place.number_rooms }} Bedroom{{ place.number_rooms|pluralize }}</div>
+                <div class="number_bathrooms">{{ place.number_bathrooms }} Bathroom{{ place.number_bathrooms|pluralize }}</div>
+            </div>
+            <div class="user">
+                <b>Owner:</b> {{ place.user.first_name }} {{ place.user.last_name }}
+            </div>
+            <div class="description">
+                {{ place.description|safe }}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+</body>
+</html>
